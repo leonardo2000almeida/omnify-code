@@ -15,16 +15,12 @@ const getToken = async (code) => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: {
-          "grant_type": "authorization_code",
-          code,
-          redirect_uri: "https://marykay.dev.omnify.cx/authentication/",
-          client_id,
-          code_verifier,
-        },
+        data: `grant_type=authorization_code&code=${code}&redirect_uri=https://marykay.dev.omnify.cx/authentication/&client_id=${client_id}&code_verifier=${code_verifier}`,
       }
     );
-    // console.log(request);
+    const { access_token } = request?.data;
+
+    return access_token;
   } catch (err) {
     console.log(err.response);
   }
