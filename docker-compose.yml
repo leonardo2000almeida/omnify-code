@@ -1,0 +1,10 @@
+services:
+  redis-compose:
+    image: redis
+    command: redis-server
+    container_name: redis-mk
+    hostname: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /home/duducp/Redis:/var/lib/postgresql/data

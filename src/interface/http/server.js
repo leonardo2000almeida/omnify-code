@@ -1,28 +1,33 @@
-import express from "express";
-import helmet from "helmet";
-import cors from "cors";
-import morgan from "morgan";
-import routes from "./routes/index.js";
+const express = require("express");
+const helmet = require("helmet");
+const cors = require("cors");
+const morgan = require("morgan");
+const routes = require("./routes/index.js");
 
-export class Server {
+class Server {
   constructor(app, PORT) {
     this.app = app || express();
     this.port = PORT || 3000;
   }
 
   setupMiddlewares = () =>
-    this.app.use(
-      express.json(),
-      express.urlencoded({ extended: true }),
-      cors(),
-      helmet(),
-      morgan("tiny")
+    new Server(
+      this.app.use(
+        express.json(),
+        express.urlencoded({ extended: true }),
+        cors(),
+        helmet(),
+        morgan("tiny")
+      )
     );
 
-  setupRoutes = () => routes.map((route) => this.app.use);
+  setupRoutes = () => new Server(this.app.use(routes));
 
-  start = () =>
+  start = async () => {
     this.app.listen(this.port, () =>
       console.log(`Server is ready to recieve connections on port ${this.port}`)
     );
+  };
 }
+
+module.exports = { Server };
