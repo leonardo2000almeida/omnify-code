@@ -1,6 +1,6 @@
 const client = require("../../../infra/database/redis");
 
-const getCode = async (clientId) =>
+const getTokenAccess = async (clientId) =>
   await client.get(`user_maryKay-${clientId}`);
 
-module.exports = { getCode };
+module.exports = { getTokenAccess };

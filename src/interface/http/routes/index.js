@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const getUserInfo = require("../controllers/getUserInfoController.js");
 const {
   saveCredentials,
 } = require("../controllers/saveCredentialsController.js");
@@ -6,4 +7,5 @@ const {
 const main = Router();
 
 main.get("/", saveCredentials);
+main.get("/:clientId", getUserInfo);
 module.exports = main;
