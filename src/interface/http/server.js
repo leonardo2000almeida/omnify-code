@@ -7,7 +7,7 @@ const routes = require("./routes/main.routes.js");
 class Server {
   constructor(app, PORT) {
     this.app = app || express();
-    this.port = PORT || 3000;
+    this.port = PORT || 80;
   }
 
   setupMiddlewares = () => {
@@ -20,12 +20,12 @@ class Server {
       morgan("tiny")
     );
 
-    return new Server(this.app);
+    return new Server(this.app, this.port);
   };
 
   setupRoutes = () => {
     this.app.use(routes);
-    return new Server(this.app);
+    return new Server(this.app, this.port);
   };
 
   start = async () => {
