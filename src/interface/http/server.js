@@ -2,7 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const morgan = require("morgan");
-const routes = require("./routes/index.js");
+const routes = require("./routes/main.routes.js");
 
 class Server {
   constructor(app, PORT) {
@@ -10,18 +10,23 @@ class Server {
     this.port = PORT || 3000;
   }
 
-  setupMiddlewares = () =>
-    new Server(
-      this.app.use(
-        express.json(),
-        express.urlencoded({ extended: true }),
-        cors(),
-        helmet(),
-        morgan("tiny")
-      )
+  setupMiddlewares = () => {
+    this.app.use(
+      express.text(),
+      express.json(),
+      express.urlencoded({ extended: true }),
+      cors(),
+      helmet(),
+      morgan("tiny")
     );
 
-  setupRoutes = () => new Server(this.app.use(routes));
+    return new Server(this.app);
+  };
+
+  setupRoutes = () => {
+    this.app.use(routes);
+    return new Server(this.app);
+  };
 
   start = async () => {
     this.app.listen(this.port, () =>

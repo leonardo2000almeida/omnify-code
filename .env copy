@@ -1,0 +1,4 @@
+REDIS_URL=redis://localhost:6379
+MARYKAY_BASEURL=https://amr1uat-mkamr-marykayintouch.cs43.force.com/br/services/oauth2
+MARYKAY_WEBCHAT=https://marykay-webchat.s3.amazonaws.com/dev.html?consultantNumber=000079
+PORT=3000

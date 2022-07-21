@@ -1,14 +1,11 @@
-const getToken = require("../../../app/useCases/marykay/getToken");
-const { saveToken } = require("../../../app/useCases/redis/saveToken");
-
 const saveCredentials = async (req, res) => {
   try {
     const { code } = req?.query;
-    const token = await getToken(code);
-    await saveToken(token);
-    res.sendStatus(200);
+    console.log(req.hostname)
+    res.redirect(
+      `https://amr1uat-mkamr-marykayintouch.cs43.force.com/br/s/?code=${code}`
+    );
   } catch (err) {
-    console.log(err);
     return res.sendStatus(500);
   }
 };

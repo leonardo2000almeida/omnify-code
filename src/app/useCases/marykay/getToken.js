@@ -1,28 +1,35 @@
-const { getClientId } = require("../redis/getClientId");
-const { getVerifier } = require("../redis/getVerifier");
+const { marykayAuth } = require(".");
+const qs = require("qs");
 
-const axios = require("axios").default;
-
-const getToken = async (code) => {
+const getToken = async (data) => {
   try {
-    const client_id = await getClientId();
-    const code_verifier = await getVerifier();
+    const jsonData = JSON.parse(data);
+    const {code, code_verifier} = jsonData;
 
-    const request = await axios(
-      "https://amr1uat-mkamr-marykayintouch.cs43.force.com/br/services/oauth2/token",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        data: `grant_type=authorization_code&code=${code}&redirect_uri=https://marykay.dev.omnify.cx/authentication/&client_id=${client_id}&code_verifier=${code_verifier}`,
-      }
-    );
+    const client_id =
+      "3MVG9GnaLrwG9TQQPR9BSKWd2kutqyf0IfQNLLC_kHgtFgUwi.zPqlDn_6dwiHioLlVRwlWVO2uW5_w5PUgaq";
+
+    const body = {
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: "https://marykay.dev.omnify.cx/authentication/",
+      client_id,
+      code_verifier,
+    };
+
+    const request = await marykayAuth("/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: qs.stringify(body),
+    });
+
     const { access_token } = request?.data;
 
     return access_token;
   } catch (err) {
-    console.log(err.response);
+    console.log(err);
   }
 };
 
